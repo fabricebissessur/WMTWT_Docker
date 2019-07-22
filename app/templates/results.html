@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+
+{% block paginationInfo1 %}
+
+<div id="paginationHeader">
+    Displaying page {{page}} of {{total_pages}} pages...
+    <input type="submit" id="previous" name="previous" class="previous" value="Previous" />
+    <input type="submit" id="next" name="next" class="next" value="Next" />
+</div>
+
+{% endblock %}
+
+{% block paginationInfo2 %}
+
+<div id="paginationFooter">
+    Displaying page {{page}} of {{total_pages}} of XXXXXX pages...
+    <input type="submit" id="previous" name="previous" class="previous" value="Previous" />
+    <input type="submit" id="next" name="next" class="next" value="Next" />
+</div>
+
+{% endblock %}

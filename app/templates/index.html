@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>What Movie To Watch Today</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <img src="{{url_for('static', filename='img/UnderConstruction.jpg')}}" height="100"> What Movie To Watch Today
+        </div>
+        <div id="horizontalFilters">
+            <form action="/action_page.php">
+                <input type="search" class="searchInput" name="search" placeholder="What Movie To Watch Today ?"><input type="submit" value="Search" class="searchButton">
+            </form>
+        </div>
+        <div id="content">
+            <form action="xx" method="POST">
+                <div id="verticalFilter">
+                    <!--Note: jinja2 counter madness. We are using SET which is an assignment operator. Since you call set in the nested loop, the count in the nested loop is a different variable-->
+                    <!--That's why we need the hacky solution below where the counter becomes an object instead of a simple variable -->
+
+                    
+                </div>
+
+                <div id="main">
+
+
+                    <table>
+                        {% for movie in movies %}
+                        <tr>
+                            <td rowspan="3"><img src={{ posterBasePath + poster_size + movie.poster_path }} alt="image" /></td>
+                            <td class="movie_title">{{ movie.original_title }}</td>
+                            <td class="movie_rating" rowspan="3">{{ movie.vote_average }}</td>
+                            <td class="watched" rowspan="3">Watched?</td>
+                        </tr>
+                        <tr>
+                            <td class="movie_release_date">{{ movie.release_date }}</tdclass="movie_title">
+                        </tr>
+                        <tr>
+                            <td class="movie_overview">{{ movie.overview }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+
+                </div>
+            </form>
+
+            <div id="footer">
+                Copyright &copy; 2019 FBI Enterprise - Except as permitted by the copyright law applicable to you, you may not reproduce or communicate any of the content on this website, including files downloadable from this website, without the permission of the copyright owner. For more information, see www.copyright.com.au and www.copyright.org.au.
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

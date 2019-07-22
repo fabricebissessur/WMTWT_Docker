@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>What Movie To Watch Today</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <img src="{{url_for('static', filename='img/UnderConstruction.jpg')}}" height="100"> What Movie To Watch Today
+        </div>
+        <div id="horizontalFilters">
+            <form action="/action_page.php">
+                <input type="search" class="searchInput" name="search" placeholder="What Movie To Watch Today ?"><input type="submit" value="Search" class="searchButton">
+            </form>
+        </div>
+        <div id="content">
+            <form action="{{ url_for('results') }}" method="POST">
+                <div id="verticalFilter">
+                    <!--Note: jinja2 counter madness. We are using SET which is an assignment operator. Since you call set in the nested loop, the count in the nested loop is a different variable-->
+                    <!--That's why we need the hacky solution below where the counter becomes an object instead of a simple variable -->
+
+                    {% set yearFrom = 1899 %}
+                    {% set yearTo = 2019 %}
+                    {% set count = {'value': yearTo} %}
+                    {% set maxRating = 10 %}
+                    {% set countRating = {'value': 10} %}
+
+                    <p>Year: </p>
+                    <select class="years" name="years" id="years">
+                        <option value="any" selected>Any</option>
+                        {% for x in range (yearFrom, yearTo) %}
+                        <option value="{{count.value}}" {% if count.value==selectedYear %} selected {% endif %}>{{count.value}}</option>
+                        {% if count.update({'value': (count.value - 1)}) %} {% endif %}
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <p>Rating: </p>
+                    <select class="rating" name="rating" id="rating">
+                        <option value="any" selected>Any</option>
+                        {% for x in range (0, maxRating) %}
+                        <option value="{{countRating.value}}" {% if countRating.value==selectedRating %} selected {% endif %}>{{countRating.value}} {% if countRating.value<=9 %} and above{% endif %}</option>
+                        {% if countRating.update({'value': (countRating.value - 1)}) %} {% endif %}
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <br>
+                    <input type="submit" name="filter" value="Filter" class="submitButton" />
+
+                </div>
+
+                <div id="main">
+
+                    {% block paginationInfo1 %}
+
+                    {% endblock %}
+
+                    <table>
+                        {% for movie in movies %}
+                        <tr>
+                            <td rowspan="3"><img src={{ posterBasePath + poster_size + movie.poster_path }} alt="image" /></td>
+                            <td class="movie_title">{{ movie.original_title }}</td>
+                            <td class="movie_rating" rowspan="3">{{ movie.vote_average }}</td>
+                            <td class="watched" rowspan="3">Watched?</td>
+                        </tr>
+                        <tr>
+                            <td class="movie_release_date">{{ movie.release_date }}</tdclass="movie_title">
+                        </tr>
+                        <tr>
+                            <td class="movie_overview">{{ movie.overview }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                    {% block paginationInfo2 %}
+
+                    {% endblock %}
+
+                </div>
+            </form>
+
+            <div id="footer">
+                Copyright &copy; 2019 FBI Enterprise - Except as permitted by the copyright law applicable to you, you may not reproduce or communicate any of the content on this website, including files downloadable from this website, without the permission of the copyright owner. For more information, see www.copyright.com.au and www.copyright.org.au.
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

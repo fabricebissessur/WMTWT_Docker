@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  wmtwt_docker:
+    image: containerregistry0.azurecr.io/wmtwt_docker:1
+    build: .
+    ports:
+      - 8000:8000
